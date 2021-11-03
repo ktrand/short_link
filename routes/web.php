@@ -17,5 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/link',[LinkController::class, 'make_short_link']);
-Route::get('/{token}', [LinkController::class,'redirect_link']);
+Route::post('/link',[LinkController::class, 'MakeShortLink']);
+Route::get('/{token}', [LinkController::class,'RedirectLink']);
