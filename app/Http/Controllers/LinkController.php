@@ -29,16 +29,12 @@ class LinkController extends Controller
             if($e->errorInfo[0]==23000) return "данную ссылку уже вводили";
             else return $e->errorInfo[2];
           }
-
-        //  if($data->save()){
-        //     return env('APP_URL') . $data->token;
-        //  };
      }
 
      function RedirectLink($token){
-        // вытаскиваем URL который подходит нашему токену
-        $url = DB::table('links')->where('token',$token)->value('link');
-        // перенаправляем в нужный URL
-        return redirect()->to($url);
+        $link = new Link();
+        $url = $link->where('token', '=', $token)->get();
+        if(isset($url[0]->link))return redirect()->to($url[0]->link);
+        abort(404);
      }
 }
