@@ -23,10 +23,16 @@ class LinkController extends Controller
          // установим токен для URL
          $data->token = Str::random(6);
          // записываем в БД
-         return env('APP_URL') . $data->token;
-         if($data->save()){
-             return appUrl() . $data->token;
-         };
+         try {
+            $data->save();
+          } catch (\Illuminate\Database\QueryException $e) {
+            if($e->errorInfo[0]==23000) return "данную ссылку уже вводили";
+            else return $e->errorInfo[2];
+          }
+
+        //  if($data->save()){
+        //     return env('APP_URL') . $data->token;
+        //  };
      }
 
      function RedirectLink($token){
